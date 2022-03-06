@@ -98,3 +98,23 @@ def search_results(request):
     else:
         message = "No Results"
         return render(request, 'all-news/search.html',{"message":message})
+
+def signup(request):
+    if request.user.is_authenticated:
+        return redirect('homepage')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            user.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('homepage')
+        else:
+            return render(request, 'registration/signup.html', {'form': form})
+    else:
+        form = UserCreationForm()
+        return render(request, 'registration/signup.html', {'form': form})
