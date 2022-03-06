@@ -65,3 +65,21 @@ def profile_follow(request):
 
         return redirect("profile", user_id=followed_user.id)
 
+
+def profile_unfollow(request):
+    unfollowed_user = User.objects.get(id=request.POST['id'])
+    follow = Following.objects.filter(follower_id=request.user.id, following_id=unfollowed_user.id)
+    follow.delete()
+
+    followers = Following.objects.filter(following_id=unfollowed_user.id)
+    following = Following.objects.filter(follower_id=unfollowed_user.id)
+    posts = Image.objects.filter(user_id=unfollowed_user.id)
+
+    individual_followers = []
+
+    for follower in followers:
+        individual_followers.append(follower.follower)
+
+    
+    return redirect("profile", user_id=unfollowed_user.id)
+
