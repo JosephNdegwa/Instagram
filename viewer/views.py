@@ -21,3 +21,19 @@ def homepage(request):
     else:
         return render(request, 'index.html') 
 
+def profile(request, user_id):
+    # Profile view that shows a user's page with information regarding followers,
+    # following, and their photos
+    current_user = User.objects.get(id=user_id)
+    followers = Following.objects.filter(following_id=current_user.id)
+    following = Following.objects.filter(follower_id=current_user.id)
+    posts = Image.objects.filter(user_id=current_user.id)
+
+    individual_followers = []
+
+    for follower in followers:
+        individual_followers.append(follower.follower)
+
+
+    return render(request, "profile.html", {"posts": posts, "following": following, "followers": followers, "individual_followers": individual_followers,"current_user": current_user})
+
