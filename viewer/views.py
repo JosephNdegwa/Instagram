@@ -88,3 +88,13 @@ def post(request, post):
     image = Image.objects.get(id=post)
     return render(request, "post.html", {"post": image}) 
 
+def search_results(request):
+	# Search results view that searches for users and allows you to go to 
+    # their profile page
+    if 'username' in request.GET and request.GET["username"]:
+        search_term = request.GET.get("username")
+        searched_usernames = User.objects.filter(username__icontains=search_term)
+        return render(request, 'search.html',{"search_term": search_term,"searched_usernames": searched_usernames})
+    else:
+        message = "No Results"
+        return render(request, 'all-news/search.html',{"message":message})
