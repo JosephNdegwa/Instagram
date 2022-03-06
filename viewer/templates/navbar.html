@@ -1,0 +1,30 @@
+<nav id="instagram-nav" class="navbar navbar-expand-lg navbar-light">
+    <a id="instagram-title" class="navbar-brand" href="{% url 'homepage' %}">Instagram</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <form class="form-inline my-2 my-lg-0 nav-search" role="search" action="{% url 'search_results' %}">
+            <input id="search-box" class="mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="username">
+        </form>
+        <span class="navbar-text navbar-link nav-signup-link">
+            {% if not user.is_authenticated %}
+                <a href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
+        </span>
+        <span class="navbar-text navbar-link">
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Log Out</a>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+            {% endif %}
+        </span>
+        <span id="user-profile" class="navbar-text navbar-link ">
+            {% if user.is_authenticated %}
+            <a href="{% url 'profile' user_id=user.id %}">
+                <svg id="user-image" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </a>
+            {% endif %}
+        </span>
+    </div>
+</nav>
