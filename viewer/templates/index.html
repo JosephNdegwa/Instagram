@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if not user.is_authenticated %} 
+        <div class="mt-5 d-flex flex-column align-items-center">
+            <h1>Please log in First</h1>
+        </div>
+    {% else %}
+        <div class="container timeline-container">
+            <div class="row">
+                <div class="col-md-9 image-column">
+                    <h1 class="timeline-title">Timeline</h1>
+                    {% for user_images in images %}
+                        {% for image in user_images %}
+                            <a href="{% url 'post' post=image.id%}">
+                                <img class="timeline-img" src="{{ image.image.url }}">
+                            </a>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="col-md-3 d-flex flex-column">
+                    <p class="suggestions-title">Suggestions For You</p>
+                    {% for suggested_user in users %}
+                        {% if not suggested_user.id == user.id %}
+                        <a class="suggestion" href="{% url 'profile' user_id=suggested_user.id %}">{{ suggested_user.username }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
