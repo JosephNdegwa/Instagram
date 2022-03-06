@@ -83,3 +83,8 @@ def profile_unfollow(request):
     
     return redirect("profile", user_id=unfollowed_user.id)
 
+
+def post(request, post):
+    image = Image.objects.get(id=post)
+    return render(request, "post.html", {"post": image}) 
+
