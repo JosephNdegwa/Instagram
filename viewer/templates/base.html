@@ -1,0 +1,25 @@
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram</title>
+    {% block styles %}
+        {% bootstrap_css %}
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'viewer/style.css' %}" media="all">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+    {% include "navbar.html" %}
+
+    {% block content %} {% endblock %}
+
+    {% block scripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        {% bootstrap_javascript %}
+    {% endblock %}
+</body>
+</html>
