@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5 d-flex flex-column align-items-center">
+        <h1>Results</h1>
+        {% if searched_usernames %}
+        {% for username in searched_usernames %}
+            <a class="suggestion" href="{% url 'profile' user_id=username.id %}">{{ username }}</a>
+        {% endfor %}
+        {% else %}
+            <p>No results</p>
+        {% endif %}
+    </div>
+{% endblock %}
