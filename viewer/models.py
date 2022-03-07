@@ -26,3 +26,27 @@ class Profile(models.Model):
 class Following(models.Model):
     follower = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE)
     following = models.ForeignKey(User, related_name="followers", on_delete=models.CASCADE)
+
+
+class Image(models.Model):
+    image = models.ImageField(upload_to="photos/")
+    name = models.CharField(max_length=60)
+    description = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name='post_like')
+
+    def __str__(self):
+        return self.name
+
+    def get_likes(self):
+        return self.likes.count()
+
+    def save_image(self):
+        self.save()
+
+    def delete_image(self):
+        self.delete()
+
+    def update_caption(self, new_caption):
+        self.description = new_caption
+        self.save()
