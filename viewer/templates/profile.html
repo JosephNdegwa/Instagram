@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="profile-container" class="container">
+        <div id="profile-description" class="row pb-5">
+            <div class="col-md-3 d-flex justify-content-center">
+                {% if user.is_authenticated %}
+                <svg id="profile-image" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <h1 class="profile-username">{{ current_user }}</h1>
+                <div class="stats mt-3 d-flex flex-row justify-content-between">
+                    <p class="posts">{{ posts | length }} posts</p>
+                    <p class="followers">{{ followers | length }} followers</p>
+                    <p class="following">{{ following | length }} following</p>
+                </div>
+                {% if current_user.id == user.id %}
+                    <p></p>
+                {% else %}
+                    {% if user in individual_followers %}
+                        <form class='form' method='POST' action='{% url "unfollow" %}'>
+                            {% csrf_token %}
+                            <input type='hidden' name='id' value='{{ current_user.id }}'>
+                            <button class="btn btn-danger">Unfollow</button>
+                        </form>
+                    {% else %}
+                        <form class='form' method='POST' action='{% url "follow" %}'>
+                            {% csrf_token %}
+                            <input type='hidden' name='id' value='{{ current_user.id }}'>
+                            <button class="btn btn-primary">Follow</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-12 posts-container">
+                {% for post in posts %}
+                    <a href="{% url 'post' post=post.id%}">
+                        <img class="post" src="{{ post.image.url }}">
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
