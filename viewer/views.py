@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import *
 from .models import Image, Profile, Following
+from .forms import NewImageForm
 
 def homepage(request):
     # Homepage view displaying the user's timeline and suggestions for people they can 
@@ -84,9 +85,12 @@ def profile_unfollow(request):
     return redirect("profile", user_id=unfollowed_user.id)
 
 
-def post(request, post):
+
+def post(request,post):
     image = Image.objects.get(id=post)
-    return render(request, "post.html", {"post": image}) 
+    return render(request, "post.html", {"post": image }) 
+
+
 
 def search_results(request):
 	# Search results view that searches for users and allows you to go to 

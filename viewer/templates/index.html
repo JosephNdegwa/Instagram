@@ -19,7 +19,7 @@
                     {% endfor %}
                 </div>
                 <div class="col-md-3 d-flex flex-column">
-                    <p class="suggestions-title">Suggestions For You</p>
+                    <p class="suggestions-title">People you may know</p>
                     {% for suggested_user in users %}
                         {% if not suggested_user.id == user.id %}
                         <a class="suggestion" href="{% url 'profile' user_id=suggested_user.id %}">{{ suggested_user.username }}</a>
